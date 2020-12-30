@@ -84,6 +84,12 @@ Library | Version | Notes
 
   // Test the AWS lambda function locally via emulated API gateway.
   GET - http://localhost:3000/dev/greet
+
+  or
+  // start on specific port
+   sls offline start --port 4000
+
+   GET - http://localhost:4000/dev/greet
   ```
 
 4. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
