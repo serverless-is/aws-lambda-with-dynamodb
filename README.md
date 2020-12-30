@@ -1,6 +1,6 @@
-# hello-world-typescript
+# aws-lambda-with-dynamodb
 
-This project demonstrates how to make a simple REST API with Node.js v12 and Typescript v4 running on AWS Lambda and API Gateway using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
+This project demonstrates how to make crud operations using AWS Lambda, AWS Dynamodb, AWS API Gateway via simple REST API with Node.js v12 and Typescript v4 using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
 
 - handler - Code for the application's Lambda function.
 - serverless.yml - A template that defines the application's AWS Lambda resources
@@ -62,7 +62,7 @@ Library | Version | Notes
 1. Clone repository and run `npm install`
 
   ```bash
-  git clone https://github.com/serverless-is/hello-world-typescript.git
+  git clone https://github.com/serverless-is/aws-lambda-with-dynamodb.git
   cd hello-world
   npm install
   ```
@@ -226,4 +226,4 @@ Library | Version | Notes
 ## Status and Issues
 
 * [Change History](./CHANGELOG.md).
-* [Issue tracker](https://github.com/serverless-is/hello-world-typescript/issues?state=open)
+* [Issue tracker](https://github.com/serverless-is/aws-lambda-with-dynamodb/issues?state=open)
