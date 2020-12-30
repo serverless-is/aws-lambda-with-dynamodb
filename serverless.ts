@@ -22,13 +22,13 @@ const serverlessConfiguration: AWS = {
     },
   },
   functions: {
-    hello: {
-      handler: 'handler.hello',
+    getToDoItem: {
+      handler: 'handler.getToDoItem',
       events: [
         {
           http: {
             method: 'get',
-            path: 'hello',
+            path: 'to-do-list',
           }
         }
       ]
