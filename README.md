@@ -3,7 +3,7 @@
 This project demonstrates how to make CRUD operations using AWS Lambda, AWS Dynamodb, AWS API Gateway via simple REST API with Node.js v12 and Typescript v4 using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
 
 - handler - Code for the application's Lambda function.
-- serverless.ts - Typescript template that defines the application's AWS Lambda service, functions and resources
+- serverless.ts - A typescript template that defines the application's AWS Lambda service, function, resources and trigger events
 - package.json - Dev Dependencies and plugin `serverless-plugin-typescript`
 
 **Table of contents:**
@@ -201,41 +201,57 @@ Library | Version | Notes
 1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (getToDoItem and saveToDoItem). You can define one or more functions in a service
 
   ```bash
-  sls create --template aws-nodejs --path hellow-world-typescript --name getToDoItem
+  sls create --template aws-nodejs-typescript --path aws-lambda-with-dynamodb --name getToDoItem
   ```
 
   This creates 3 files:
     - gitignore file
     - handler.ts - Code for the application's Lambda function.
-    - serverless.yml - A template that defines the application's AWS Lambda resources and Trigger events
+    - serverless.ts - A typescript template that defines the application's AWS Lambda service, function, resources and trigger events
 
-1. Define events in `serverless.ts` to trigger the lambda function. Example: for this `hello` function,  we defined HTTP REST End points with path `wish` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
+1. Define events in `serverless.ts` to trigger the lambda function. Example: for this `getToDoItem` function,  we defined HTTP REST End points with path `to-do-item/{id}` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
 
-  ```yml
-  functions:
-  hello:
-    handler: handler.hello
-    events:
-       - http:
-          path: greet
-          method: get
+  ```typescript
+  functions: {
+    saveToDoItem: {
+      handler: 'handler.saveToDoItem',
+      events: [
+        {
+          http: {
+            method: 'post',
+            path: 'to-do-item',
+            cors: true
+          }
+        }
+      ]
+    },
+    getToDoItem: {
+      handler: 'handler.getToDoItem',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'to-do-item/{id}',
+          }
+        }
+      ]
+    }
+  }
   ```
 
-1. Define  plugins `serverless-plugin-typescript` and `serverless-offline` in `serverless.yml`
+1. Define  plugins `serverless-plugin-typescript` and `serverless-offline` in `serverless.ts`
 
-  ```yml
-  plugins:
-    - serverless-plugin-typescript
-    - serverless-offline
+  ```typescript
+  plugins: ['serverless-webpack', 'serverless-offline']
   ```
 
   Note: Add the plugins to your serverless.yml file and make sure that serverless-plugin-typescript precedes serverless-offline as the order is important:
 
   serverless-plugin-typescript: Serverless plugin for zero-config Typescript support.Works out of the box without the need to install any other compiler or plugins
 
-  serverless-offline: This Serverless plugin emulates AWS Lambda and API Gateway on your local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
+  serverless-offline: This Serverless plugin emulates AWS Lambda and API Gateway on your local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
 
-1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `hello-world-typescript-dev-hello` and a REST API via AWS API Gateway `dev-hello-world-typescript` with endpoints `https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item`
+1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `aws-lambda-with-dynamodb-dev-getToDoItem` and a REST API via AWS API Gateway `dev-aws-lambda-with-dynamodb` with endpoints `https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item`
 
 1. Run `serverless offline` command to start the Lambda/API simulation.
 
