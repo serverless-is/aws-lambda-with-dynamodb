@@ -3,7 +3,7 @@
 This project demonstrates how to make CRUD operations using AWS Lambda, AWS Dynamodb, AWS API Gateway via simple REST API with Node.js v12 and Typescript v4 using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
 
 - handler - Code for the application's Lambda function.
-- serverless.yml - A template that defines the application's AWS Lambda resources
+- serverless.ts - Typescript template that defines the application's AWS Lambda service, functions and resources
 - package.json - Dev Dependencies and plugin `serverless-plugin-typescript`
 
 **Table of contents:**
@@ -12,7 +12,8 @@ This project demonstrates how to make CRUD operations using AWS Lambda, AWS Dyna
 2. [Dependencies and Libraries](#dependencies-and-libraries)
 3. [Quick Start](#quick-start)
 4. [Create AWS Lambda Function using Serverless Framework](#create-aws-lambda-function-using-serverless-framework)
-5. [Status and Issues](#status-and-issues)
+5. [References](#references)
+6. [Status and Issues](#status-and-issues)
 
 ## Prerequisites and Installation
 
@@ -51,6 +52,9 @@ Library | Version | Notes
 :-------|:--------:|-------
 [Node](https://nodejs.org/) | 12.13.x | Recommended NodeJS version
 [NPM](https://nodejs.org/) | 6.12.x | Recommended NPM version
+[aws-lambda](https://github.com/awspilot/cli-lambda-deploy)  | 1.0.6 | Command line tool deploy code to AWS Lambda.
+[aws-sdk](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-examples.html)  | 2.821.0 | The AWS SDK for JavaScript enables developers to build libraries and applications that use AWS services.
+[uuid](https://github.com/uuidjs/uuid)  | 8.3.2 | Generate RFC-compliant UUIDs in JavaScript
 [Serverless Framework](https://www.serverless.com/) | 2.16.x | Framework for serverless development like Lambda, Azure functions, Google functions
 [serverless-plugin-typescript](https://github.com/prisma-labs/serverless-plugin-typescript)| ~1.1.x | Serverless plugin for zero-config Typescript support
 [serverless-offline](https://github.com/dherault/serverless-offline)| ~6.8.x | plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers
@@ -63,14 +67,14 @@ Library | Version | Notes
 
   ```bash
   git clone https://github.com/serverless-is/aws-lambda-with-dynamodb.git
-  cd hello-world
+  cd aws-lambda-with-dynamodb
   npm install
   ```
 
 2. Test the lambda function by invoking the lambda function locally. runs your code locally by emulating the AWS Lambda environment.
 
   ```bash
-   sls invoke local --function hello
+   sls invoke local --function getToDoItem -p 1
   ```
 
 3. Run `serverless offline` command to start the Lambda/API simulation.
@@ -83,13 +87,13 @@ Library | Version | Notes
   sls offline start
 
   // Test the AWS lambda function locally via emulated API gateway.
-  GET - http://localhost:3000/dev/greet
+  GET - http://localhost:3000/dev/to-do-item/{id}
 
   or
   // start on specific port
    sls offline start --port 4000
 
-   GET - http://localhost:4000/dev/greet
+   GET - http://localhost:4000/dev/to-do-item/{id}
   ```
 
 4. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
@@ -134,13 +138,13 @@ Library | Version | Notes
 8. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
 
   ```bash
- sls deploy function -f hello
+ sls deploy function -f saveToDoItem
 
  // deploy with stage and region options
- sls deploy function -f hello --stage production --region us-west-1
+ sls deploy function -f saveToDoItem --stage production --region us-west-1
 
  // deploy only configuration changes, ONLY Lambda-level configuration changes e.g. handler, timeout or memorySize
- sls deploy function -f hello --update-config
+ sls deploy function -f saveToDoItem --update-config
   ```
 
 9. To list information about your deployments.
@@ -162,13 +166,13 @@ Library | Version | Notes
 11. To watch the logs of a specific function.
 
   ```bash
-  sls logs -f hello
+  sls logs -f saveToDoItem
 
   // Optionally tail the logs with -t
-  sls logs -f hello -t
+  sls logs -f saveToDoItem -t
 
   // Optionally fetch only the logs that contain the string serverless
-  sls logs -f hello --filter serverless
+  sls logs -f saveToDoItem --filter serverless
   ``` 
 
 12. To remove the deployed service, defined in your current working directory
@@ -194,10 +198,10 @@ Library | Version | Notes
 
 ## Create AWS Lambda Function using Serverless Framework
 
-1. Create service a new service or project(hellow-world-typescript) for AWS Lambda function (hello). You can define one or more functions in a service
+1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (getToDoItem and saveToDoItem). You can define one or more functions in a service
 
   ```bash
-  sls create --template aws-nodejs --path hellow-world-typescript --name hello
+  sls create --template aws-nodejs --path hellow-world-typescript --name getToDoItem
   ```
 
   This creates 3 files:
@@ -205,7 +209,7 @@ Library | Version | Notes
     - handler.ts - Code for the application's Lambda function.
     - serverless.yml - A template that defines the application's AWS Lambda resources and Trigger events
 
-1. Define events in `serverless.yml` to trigger the lambda function. Example: for this `hello` function,  we defined HTTP REST End points with path `wish` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
+1. Define events in `serverless.ts` to trigger the lambda function. Example: for this `hello` function,  we defined HTTP REST End points with path `wish` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
 
   ```yml
   functions:
@@ -231,7 +235,7 @@ Library | Version | Notes
 
   serverless-offline: This Serverless plugin emulates AWS Lambda and API Gateway on your local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
 
-1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `hello-world-typescript-dev-hello` and a REST API via AWS API Gateway `dev-hello-world-typescript` with endpoints `https://wvz961twj2.execute-api.us-east-1.amazonaws.com/dev/greet`
+1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `hello-world-typescript-dev-hello` and a REST API via AWS API Gateway `dev-hello-world-typescript` with endpoints `https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item`
 
 1. Run `serverless offline` command to start the Lambda/API simulation.
 
@@ -243,8 +247,13 @@ Library | Version | Notes
   sls offline start
 
   // Test the AWS lambda function locally via emulated API gateway.
-  GET - http://localhost:3000/dev/greet
+  GET - http://localhost:3000/dev/to-do-item
   ```
+
+## References
+
+* [AWS SDK v2 for DynamoDB](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-document-client.html).
+* [AWS.DynamoDB.DocumentClient API v2](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html)
 
 ## Status and Issues
 
