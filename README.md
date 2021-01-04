@@ -1,6 +1,6 @@
 # aws-lambda-with-dynamodb
 
-This project demonstrates how to make crud operations using AWS Lambda, AWS Dynamodb, AWS API Gateway via simple REST API with Node.js v12 and Typescript v4 using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
+This project demonstrates how to make CRUD operations using AWS Lambda, AWS Dynamodb, AWS API Gateway via simple REST API with Node.js v12 and Typescript v4 using the Serverless Framework [Serverless Framework v2](https://www.serverless.com/). It includes the following files and folders.
 
 - handler - Code for the application's Lambda function.
 - serverless.yml - A template that defines the application's AWS Lambda resources
@@ -105,16 +105,33 @@ Library | Version | Notes
 5. Test the AWS lambda function.
 
   ```bash
- sls invoke -f hello
+  sls invoke -f saveToDoItem
+  sls invoke -f getToDoItem
   ```
 
-6. Test the AWS lambda function via Trigger events (i.e) REST API End Points.
+6. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
 
   ```bash
- GET - https://wvz961twj2.execute-api.us-east-1.amazonaws.com/dev/greet
+ POST - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item
+
+ Request Body :  {
+   "item":"First test",
+   "complete":true
+}
   ```
 
-7. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
+![Installation Instruction](./docs/5.png)
+
+
+7. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for given `id`.
+
+  ```bash
+ GET - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item/{id}
+  ```
+
+![Installation Instruction](./docs/6.png)
+
+8. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
 
   ```bash
  sls deploy function -f hello
@@ -126,7 +143,7 @@ Library | Version | Notes
  sls deploy function -f hello --update-config
   ```
 
-8. To list information about your deployments.
+9. To list information about your deployments.
 
   ```bash
  // List existing deploys 
@@ -136,13 +153,13 @@ Library | Version | Notes
  sls deploy list functions
   ```
 
-9. To list information about the deployed service.
+10. To list information about the deployed service.
 
   ```bash
  sls deploy info
   ```
 
-10. To watch the logs of a specific function.
+11. To watch the logs of a specific function.
 
   ```bash
   sls logs -f hello
@@ -154,7 +171,7 @@ Library | Version | Notes
   sls logs -f hello --filter serverless
   ``` 
 
-11. To remove the deployed service, defined in your current working directory
+12. To remove the deployed service, defined in your current working directory
 
   ```bash
  sls remove
