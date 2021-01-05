@@ -67,6 +67,17 @@ const serverlessConfiguration: AWS = {
           }
         }
       ]
+    },
+    deleteToDoItem: {
+      handler: 'src/handler.deleteToDoItem',
+      events: [
+        {
+          http: {
+            method: 'delete',
+            path: 'to-do-item/{id}',
+          }
+        }
+      ]
     }
   },
   resources: {

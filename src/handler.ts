@@ -1,6 +1,6 @@
 import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
 import 'source-map-support/register';
-import { saveItemInDB, getItemFromDB } from "./dynamodb-actions";
+import { saveItemInDB, getItemFromDB, deleteItemFromDB } from "./dynamodb-actions";
 
 export const getToDoItem: APIGatewayProxyHandler = async (
   event: APIGatewayEvent,
@@ -35,6 +35,21 @@ export const saveToDoItem: APIGatewayProxyHandler = async (
     return buildResponse(err, 400);
   }
 };
+
+export const deleteToDoItem: APIGatewayProxyHandler = async (
+  event: APIGatewayEvent,
+  context: Context) => {
+    const id: string = event.pathParameters.id;
+
+    try {
+      const toDoItem = await deleteItemFromDB(id);
+  
+      return buildResponse(toDoItem, 200);
+    } catch (err) {
+      console.log("Error: ", err);
+      return buildResponse(err, 404);
+    }
+}
 
 export const buildResponse = (fulfillmentText: any, statusCode: number): any => {
   return {

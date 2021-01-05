@@ -36,3 +36,19 @@ export function getItemFromDB(id: string) {
     .then(res => res.Item)
     .catch(err => err);
 }
+
+/** delete a to-do item from the db table */
+export function deleteItemFromDB(id: string) {
+  const params = {
+    TableName: "to-do-list",
+    Key: {
+      id
+    }
+  };
+
+  return dynamoDB
+    .delete(params)
+    .promise()
+    .then(res => res)
+    .catch(err => err);
+}
