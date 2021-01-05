@@ -1,4 +1,4 @@
-const resources: any =  {
+export const db_resources = { 
   Resources: {
     ToDoListTable: {
       Type: 'AWS::DynamoDB::Table',
@@ -24,5 +24,3 @@ const resources: any =  {
     }
   }
 }
-
-module.exports = resources

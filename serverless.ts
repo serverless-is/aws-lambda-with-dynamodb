@@ -1,4 +1,5 @@
 import type { Serverless } from 'serverless/aws';
+import { db_resources } from './resources/dynamodb-table';
 
 const serverlessConfiguration: Serverless = {
   service: 'aws-lambda-with-dynamodb',
@@ -85,32 +86,7 @@ const serverlessConfiguration: Serverless = {
       ]
     }
   },
-  resources: {
-    Resources: {
-      ToDoListTable: {
-        Type: 'AWS::DynamoDB::Table',
-        Properties: {
-          TableName: 'to-do-list',
-          AttributeDefinitions: [
-            {
-              AttributeName: 'id',
-              AttributeType: 'S'
-            }
-          ],
-          KeySchema: [
-            {
-              AttributeName: 'id',
-              KeyType: 'HASH'
-            }
-          ],
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1
-          }
-        }
-      }
-    }
-  }
+  resources: db_resources
 }
 
 module.exports = serverlessConfiguration;
