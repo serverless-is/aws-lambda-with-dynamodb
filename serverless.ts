@@ -46,7 +46,7 @@ const serverlessConfiguration: AWS = {
   },
   functions: {
     saveToDoItem: {
-      handler: 'handler.saveToDoItem',
+      handler: 'src/handler.saveToDoItem',
       events: [
         {
           http: {
@@ -58,7 +58,7 @@ const serverlessConfiguration: AWS = {
       ]
     },
     getToDoItem: {
-      handler: 'handler.getToDoItem',
+      handler: 'src/handler.getToDoItem',
       events: [
         {
           http: {
