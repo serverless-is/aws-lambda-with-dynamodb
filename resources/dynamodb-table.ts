@@ -17,8 +17,8 @@ export const db_resources = {
           }
         ],
         ProvisionedThroughput: {
-          ReadCapacityUnits: 1,
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: '${env:READ_CAPACITY}',
+          WriteCapacityUnits: '${env:WRITE_CAPACITY}'
         }
       }
     }
