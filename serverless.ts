@@ -27,7 +27,7 @@ const serverlessConfiguration: AWS = {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem'
         ],
-        'Resource': 'arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/${env:TABLE_NAME}'
+        'Resource': 'arn:aws:dynamodb:${env:AWS_DB_REGION}:${env:AWS_ACCOUNT_ID}:table/${env:TABLE_NAME}'
       },
       {
         "Effect": "Allow",

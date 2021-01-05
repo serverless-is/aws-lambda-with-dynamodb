@@ -6,7 +6,7 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 /** put a to-do item in the db table */
 export function saveItemInDB(item: string, complete: boolean) {
   const params = {
-    TableName: "to-do-list",
+    TableName: process.env.TABLE_NAME,
     Item: {
       id: uuid(),
       item,
@@ -24,7 +24,7 @@ export function saveItemInDB(item: string, complete: boolean) {
 /** get a to-do item from the db table */
 export function getItemFromDB(id: string) {
   const params = {
-    TableName: "to-do-list",
+    TableName: process.env.TABLE_NAME,
     Key: {
       id
     }
@@ -40,7 +40,7 @@ export function getItemFromDB(id: string) {
 /** delete a to-do item from the db table */
 export function deleteItemFromDB(id: string) {
   const params = {
-    TableName: "to-do-list",
+    TableName: process.env.TABLE_NAME,
     Key: {
       id
     }
