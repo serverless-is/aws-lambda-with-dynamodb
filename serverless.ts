@@ -1,10 +1,4 @@
 import type { AWS } from '@serverless/typescript';
-// Load environment variables form `.env` 
-const dotenvResult = require('dotenv').config();
-
-if (dotenvResult.error) {
-  console.warn('Lambda is configured by env variables. No .env configuration file was detected.');
-}
 
 const serverlessConfiguration: AWS = {
   service: 'aws-lambda-with-dynamodb',
@@ -16,7 +10,7 @@ const serverlessConfiguration: AWS = {
     }
   },
   // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack', 'serverless-offline'],
+  plugins: ['serverless-webpack', 'serverless-offline', 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -33,7 +27,7 @@ const serverlessConfiguration: AWS = {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem'
         ],
-        'Resource': `arn:aws:dynamodb:${process.env.AWS_REGION}:${process.env.AWS_ACCOUNT_ID}:table/${process.env.TABLE_NAME}`
+        'Resource': 'arn:aws:dynamodb:${env:AWS_REGION}:${env:AWS_ACCOUNT_ID}:table/${env:TABLE_NAME}'
       },
       {
         "Effect": "Allow",

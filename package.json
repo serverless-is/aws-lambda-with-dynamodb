@@ -1,6 +1,6 @@
 {
   "name": "aws-lambda-with-dynamodb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AWS Lambda CRUD operations with Dynamodb and AWS APIGateway usingServerless Framework v2.16.x and TypeScript",
   "main": "src/handler.ts",
   "scripts": {
@@ -10,7 +10,6 @@
   "dependencies": {
     "aws-lambda": "~1.0.6",
     "aws-sdk": "~2.821.0",
-    "dotenv": "~8.2.0",
     "source-map-support": "~0.5.19",
     "uuid": "~8.3.2"
   },
@@ -21,6 +20,7 @@
     "@types/uuid": "~8.3.0",
     "fork-ts-checker-webpack-plugin": "~6.0.0",
     "serverless": "~2.17.0",
+    "serverless-dotenv-plugin": "~3.1.0",
     "serverless-offline": "~6.8.0",
     "serverless-webpack": "~5.3.5",
     "ts-loader": "~8.0.12",
