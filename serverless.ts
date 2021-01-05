@@ -1,4 +1,10 @@
 import type { AWS } from '@serverless/typescript';
+// Load environment variables form `.env` 
+const dotenvResult = require('dotenv').config();
+
+if (dotenvResult.error) {
+  console.warn('Lambda is configured by env variables. No .env configuration file was detected.');
+}
 
 const serverlessConfiguration: AWS = {
   service: 'aws-lambda-with-dynamodb',
@@ -27,7 +33,7 @@ const serverlessConfiguration: AWS = {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem'
         ],
-        'Resource': 'arn:aws:dynamodb:us-east-1:948549715442:table/to-do-list'
+        'Resource': `arn:aws:dynamodb:${process.env.AWS_REGION}:${process.env.AWS_ACCOUNT_ID}:table/${process.env.TABLE_NAME}`
       },
       {
         "Effect": "Allow",
