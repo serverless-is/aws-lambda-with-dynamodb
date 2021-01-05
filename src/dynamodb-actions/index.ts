@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-/** put a to-do item in the db table */
+/** create a to-do item in the db table */
 export function createItemInDB(item: string, complete: boolean) {
   const params = {
     TableName: process.env.TABLE_NAME,
@@ -21,6 +21,24 @@ export function createItemInDB(item: string, complete: boolean) {
     .catch(err => err);
 }
 
+/** update a to-do item in the db table */
+/*export function updateItemInDB(item: string, complete: boolean) {
+  const params = {
+    TableName: process.env.TABLE_NAME,
+    Item: {
+      id: uuid(),
+      item,
+      complete
+    }
+  };
+
+  return dynamoDB
+    .put(params)
+    .promise()
+    .then(res => res)
+    .catch(err => err);
+} */
+
 /** get a to-do item from the db table */
 export function getItemFromDB(id: string) {
   const params = {
@@ -34,6 +52,19 @@ export function getItemFromDB(id: string) {
     .get(params)
     .promise()
     .then(res => res.Item)
+    .catch(err => err);
+}
+
+/** get all the to-do items from the db table */
+export function getAllItemsFromDB() {
+  const params = {
+    TableName: process.env.TABLE_NAME
+  };
+
+  return dynamoDB
+    .scan(params)
+    .promise()
+    .then(res => res)
     .catch(err => err);
 }
 

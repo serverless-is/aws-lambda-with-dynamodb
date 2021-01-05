@@ -74,6 +74,17 @@ const serverlessConfiguration: Serverless = {
         }
       ]
     },
+    getAllToDoItems: {
+      handler: 'src/handler.getAllToDoItems',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'to-do-item',
+          }
+        }
+      ]
+    },
     deleteToDoItem: {
       handler: 'src/handler.deleteToDoItem',
       events: [
