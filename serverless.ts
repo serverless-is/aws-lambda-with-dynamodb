@@ -1,16 +1,21 @@
-import type { AWS } from '@serverless/typescript';
+import type { Serverless } from 'serverless/aws';
 
-const serverlessConfiguration: AWS = {
+const serverlessConfiguration: Serverless = {
   service: 'aws-lambda-with-dynamodb',
   frameworkVersion: '2',
+  // Add the serverless-webpack plugin
+  plugins: ['serverless-webpack', 'serverless-offline', 'serverless-dotenv-plugin'],
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true
+    },
+    dotenv: {
+      required: {
+        file: true
+      }
     }
   },
-  // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack', 'serverless-offline', 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
