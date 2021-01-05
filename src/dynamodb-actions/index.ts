@@ -5,12 +5,15 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /** create a to-do item in the db table */
 export function createItemInDB(item: string, complete: boolean) {
+  const timestamp = new Date().getTime();
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {
       id: uuid(),
       item,
-      complete
+      complete,
+      createdAt: timestamp,
+      updatedAt: timestamp
     }
   };
 
