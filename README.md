@@ -71,13 +71,15 @@ Library | Version | Notes
   npm install
   ```
 
-2. Test the lambda function by invoking the lambda function locally. runs your code locally by emulating the AWS Lambda environment.
+2. Create a `.env` file by renaming `.env-example` file and update the environmental values.
+
+3. Test the lambda function by invoking the lambda function locally. runs your code locally by emulating the AWS Lambda environment.
 
   ```bash
    sls invoke local --function getToDoItem -p 1
   ```
 
-3. Run `serverless offline` command to start the Lambda/API simulation.
+4. Run `serverless offline` command to start the Lambda/API simulation.
 
   ```bash
   sls offline
@@ -96,7 +98,7 @@ Library | Version | Notes
    GET - http://localhost:4000/dev/to-do-item/{id}
   ```
 
-4. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
+5. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
 
   ```bash
  // deploy to default stage (dev) and default region (us-east-1). 
@@ -106,14 +108,14 @@ Library | Version | Notes
  sls deploy --stage production --region us-west-1
   ```
 
-5. Test the AWS lambda function.
+6. Test the AWS lambda function.
 
   ```bash
   sls invoke -f saveToDoItem
   sls invoke -f getToDoItem
   ```
 
-6. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
+7. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
 
   ```bash
  POST - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item
@@ -126,8 +128,7 @@ Library | Version | Notes
 
 ![Installation Instruction](./docs/5.png)
 
-
-7. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for given `id`.
+8. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for given `id`.
 
   ```bash
  GET - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item/{id}
@@ -135,7 +136,7 @@ Library | Version | Notes
 
 ![Installation Instruction](./docs/6.png)
 
-8. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
+9. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
 
   ```bash
  sls deploy function -f saveToDoItem
@@ -147,7 +148,7 @@ Library | Version | Notes
  sls deploy function -f saveToDoItem --update-config
   ```
 
-9. To list information about your deployments.
+10. To list information about your deployments.
 
   ```bash
  // List existing deploys 
@@ -157,13 +158,13 @@ Library | Version | Notes
  sls deploy list functions
   ```
 
-10. To list information about the deployed service.
+11. To list information about the deployed service.
 
   ```bash
  sls deploy info
   ```
 
-11. To watch the logs of a specific function.
+12. To watch the logs of a specific function.
 
   ```bash
   sls logs -f saveToDoItem
@@ -175,7 +176,7 @@ Library | Version | Notes
   sls logs -f saveToDoItem --filter serverless
   ``` 
 
-12. To remove the deployed service, defined in your current working directory
+13. To remove the deployed service, defined in your current working directory
 
   ```bash
  sls remove
@@ -184,7 +185,7 @@ Library | Version | Notes
  sls remove --stage dev --region us-east-1
   ```
 
-12. To Rollback a service to a specific deployment using timestamp
+14. To Rollback a service to a specific deployment using timestamp
 
   ```bash
  sls rollback -t timestamp
@@ -266,6 +267,11 @@ Library | Version | Notes
   GET - http://localhost:3000/dev/to-do-item
   ```
 
+## Serverless Environment Variables
+
+Environmental variables can be provided to Lambda configuration file (serverless.ts or serverless.yml) and Lambda function using [serverless-dotenv-plugin](https://www.npmjs.com/package/serverless-dotenv-plugin).
+
+Form More detail refer: [Documentation](https://www.serverless.com/plugins/serverless-dotenv-plugin), [Sample reference](https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/), [Other](https://www.serverless.com/framework/docs/environment-variables/)  
 ## References
 
 * [AWS SDK v2 for DynamoDB](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-document-client.html).
