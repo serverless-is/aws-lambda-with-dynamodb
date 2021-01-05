@@ -57,7 +57,7 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'post',
-            path: 'to-do-item',
+            path: 'todos',
             cors: true
           }
         }
@@ -69,7 +69,7 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'get',
-            path: 'to-do-item/{id}',
+            path: 'todos/{id}',
           }
         }
       ]
@@ -80,7 +80,7 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'get',
-            path: 'to-do-item',
+            path: 'todos',
           }
         }
       ]
@@ -91,7 +91,7 @@ const serverlessConfiguration: Serverless = {
         {
           http: {
             method: 'delete',
-            path: 'to-do-item/{id}',
+            path: 'todos/{id}',
           }
         }
       ]
