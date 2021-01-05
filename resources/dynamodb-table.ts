@@ -3,7 +3,7 @@ export const db_resources = {
     ToDoListTable: {
       Type: 'AWS::DynamoDB::Table',
       Properties: {
-        TableName: 'to-do-list',
+        TableName: '${env:TABLE_NAME}',
         AttributeDefinitions: [
           {
             AttributeName: 'id',
