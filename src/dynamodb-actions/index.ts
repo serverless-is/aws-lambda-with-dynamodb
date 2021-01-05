@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /** put a to-do item in the db table */
-export function saveItemInDB(item: string, complete: boolean) {
+export function createItemInDB(item: string, complete: boolean) {
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {

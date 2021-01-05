@@ -51,8 +51,8 @@ const serverlessConfiguration: Serverless = {
     
   },
   functions: {
-    saveToDoItem: {
-      handler: 'src/handler.saveToDoItem',
+    createToDoItem: {
+      handler: 'src/handler.createToDoItem',
       events: [
         {
           http: {

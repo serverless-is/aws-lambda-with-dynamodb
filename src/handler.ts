@@ -1,6 +1,6 @@
 import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
 import 'source-map-support/register';
-import { saveItemInDB, getItemFromDB, deleteItemFromDB } from "./dynamodb-actions";
+import { createItemInDB, getItemFromDB, deleteItemFromDB } from "./dynamodb-actions";
 
 export const getToDoItem: APIGatewayProxyHandler = async (
   event: APIGatewayEvent,
@@ -18,7 +18,7 @@ export const getToDoItem: APIGatewayProxyHandler = async (
 }
 
 /** Save an item in the to-do list */
-export const saveToDoItem: APIGatewayProxyHandler = async (
+export const createToDoItem: APIGatewayProxyHandler = async (
   event: APIGatewayEvent,
   context: Context) => {
 
@@ -27,7 +27,7 @@ export const saveToDoItem: APIGatewayProxyHandler = async (
   const { item, complete } = incoming;
 
   try {
-    await saveItemInDB(item, complete);
+    await createItemInDB(item, complete);
 
     return buildResponse({ created: incoming }, 201);
   } catch (err) {
