@@ -53,6 +53,7 @@ const serverlessConfiguration: Serverless = {
   functions: {
     createToDoItem: {
       handler: 'src/handler.createToDoItem',
+      description: 'API to create a ToDo Item',
       events: [
         {
           http: {
@@ -65,6 +66,7 @@ const serverlessConfiguration: Serverless = {
     },
     updateToDoItem: {
       handler: 'src/handler.updateToDoItem',
+      description: 'API to update a ToDo Item',
       events: [
         {
           http: {
@@ -76,6 +78,7 @@ const serverlessConfiguration: Serverless = {
     },
     getToDoItem: {
       handler: 'src/handler.getToDoItem',
+      description: 'API to get a ToDo Item',
       events: [
         {
           http: {
@@ -87,6 +90,7 @@ const serverlessConfiguration: Serverless = {
     },
     getAllToDoItems: {
       handler: 'src/handler.getAllToDoItems',
+      description: 'API to get all the ToDo Items',
       events: [
         {
           http: {
@@ -98,6 +102,7 @@ const serverlessConfiguration: Serverless = {
     },
     deleteToDoItem: {
       handler: 'src/handler.deleteToDoItem',
+      description: 'API to delete a ToDo Item',
       events: [
         {
           http: {
