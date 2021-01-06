@@ -199,7 +199,7 @@ Library | Version | Notes
 
 ## Create AWS Lambda Function using Serverless Framework
 
-1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (getToDoItem and createToDoItem). You can define one or more functions in a service
+1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (createToDoItem, updateToDoItem, getToDoItem, getAllToDoItems and deleteToDoItem). You can define one or more functions in a service
 
   ```bash
   sls create --template aws-nodejs-typescript --path aws-lambda-with-dynamodb --name getToDoItem
@@ -210,12 +210,12 @@ Library | Version | Notes
     - handler.ts - Code for the application's Lambda function.
     - serverless.ts - A typescript template that defines the application's AWS Lambda service, function, resources and trigger events
 
-1. Define events in `serverless.ts` to trigger the lambda function. Example: for this `getToDoItem` function,  we defined HTTP REST End points with path `todos/{id}` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
+1. Define events in `serverless.ts` to trigger the lambda function. On deploying this service, it create lambda function and REST API service via AWS API Gateway
 
   ```typescript
   functions: {
     createToDoItem: {
-      handler: 'handler.createToDoItem',
+      handler: 'src/handler.createToDoItem',
       events: [
         {
           http: {
@@ -226,12 +226,45 @@ Library | Version | Notes
         }
       ]
     },
+    updateToDoItem: {
+      handler: 'src/handler.updateToDoItem',
+      events: [
+        {
+          http: {
+            method: 'put',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
     getToDoItem: {
-      handler: 'handler.getToDoItem',
+      handler: 'src/handler.getToDoItem',
       events: [
         {
           http: {
             method: 'get',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
+    getAllToDoItems: {
+      handler: 'src/handler.getAllToDoItems',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'todos',
+          }
+        }
+      ]
+    },
+    deleteToDoItem: {
+      handler: 'src/handler.deleteToDoItem',
+      events: [
+        {
+          http: {
+            method: 'delete',
             path: 'todos/{id}',
           }
         }
