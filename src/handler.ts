@@ -1,33 +1,18 @@
 import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
 import 'source-map-support/register';
-import { saveItemInDB, getItemFromDB, deleteItemFromDB } from "./dynamodb-actions";
-
-export const getToDoItem: APIGatewayProxyHandler = async (
-  event: APIGatewayEvent,
-  context: Context) => {
-    const id: string = event.pathParameters.id;
-
-    try {
-      const toDoItem = await getItemFromDB(id);
-  
-      return buildResponse(toDoItem, 200);
-    } catch (err) {
-      console.log("Error: ", err);
-      return buildResponse(err, 404);
-    }
-}
+import { createItemInDB, getItemFromDB, getAllItemsFromDB, deleteItemFromDB, updateItemInDB } from "./dynamodb-actions";
 
 /** Save an item in the to-do list */
-export const saveToDoItem: APIGatewayProxyHandler = async (
+export const createToDoItem: APIGatewayProxyHandler = async (
   event: APIGatewayEvent,
   context: Context) => {
 
   console.log('event.body >>', event.body);
-  const incoming: { item: string; complete: boolean } = JSON.parse(event.body);
-  const { item, complete } = incoming;
+  const incoming: { todoItem: string; complete: boolean } = JSON.parse(event.body);
+  const { todoItem, complete } = incoming;
 
   try {
-    await saveItemInDB(item, complete);
+    await createItemInDB(todoItem, complete);
 
     return buildResponse({ created: incoming }, 201);
   } catch (err) {
@@ -36,15 +21,63 @@ export const saveToDoItem: APIGatewayProxyHandler = async (
   }
 };
 
+export const updateToDoItem: APIGatewayProxyHandler = async (
+  event: APIGatewayEvent,
+  context: Context) => {
+
+  const id: string = event.pathParameters.id;  
+  console.log('updated id >>', id);
+  console.log('updated event.body >>', event.body);
+  const incoming: { todoItem: string; complete: boolean } = JSON.parse(event.body);
+  const { todoItem, complete } = incoming;
+
+  try {
+    const result = await updateItemInDB(id, todoItem, complete);
+    console.log('updated result >>', result);
+    return buildResponse({ updated: incoming }, 201);
+  } catch (err) {
+    console.log("Error: ", err);
+    return buildResponse(err, 400);
+  }
+};
+
+export const getToDoItem: APIGatewayProxyHandler = async (
+  event: APIGatewayEvent,
+  context: Context) => {
+    const id: string = event.pathParameters.id;
+
+    try {
+      const response = await getItemFromDB(id);
+  
+      return buildResponse(response, 200);
+    } catch (err) {
+      console.log("Error: ", err);
+      return buildResponse(err, 404);
+    }
+}
+
+export const getAllToDoItems: APIGatewayProxyHandler = async (
+  event: APIGatewayEvent,
+  context: Context) => {
+
+    try {
+      const response = await getAllItemsFromDB();
+  
+      return buildResponse(response, 200);
+    } catch (err) {
+      console.log("Error: ", err);
+      return buildResponse(err, 404);
+    }
+}
+
 export const deleteToDoItem: APIGatewayProxyHandler = async (
   event: APIGatewayEvent,
   context: Context) => {
     const id: string = event.pathParameters.id;
 
     try {
-      const toDoItem = await deleteItemFromDB(id);
-  
-      return buildResponse(toDoItem, 200);
+      await deleteItemFromDB(id);
+      return buildResponse({ deleted: id }, 200);
     } catch (err) {
       console.log("Error: ", err);
       return buildResponse(err, 404);

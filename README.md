@@ -71,13 +71,15 @@ Library | Version | Notes
   npm install
   ```
 
-2. Test the lambda function by invoking the lambda function locally. runs your code locally by emulating the AWS Lambda environment.
+2. Create a `.env` file by renaming `.env-example` file and update the environmental values.
+
+3. Test the lambda function by invoking the lambda function locally. runs your code locally by emulating the AWS Lambda environment.
 
   ```bash
    sls invoke local --function getToDoItem -p 1
   ```
 
-3. Run `serverless offline` command to start the Lambda/API simulation.
+4. Run `serverless offline` command to start the Lambda/API simulation.
 
   ```bash
   sls offline
@@ -87,16 +89,16 @@ Library | Version | Notes
   sls offline start
 
   // Test the AWS lambda function locally via emulated API gateway.
-  GET - http://localhost:3000/dev/to-do-item/{id}
+  GET - http://localhost:3000/dev/todos/{id}
 
   or
   // start on specific port
    sls offline start --port 4000
 
-   GET - http://localhost:4000/dev/to-do-item/{id}
+   GET - http://localhost:4000/dev/todos/{id}
   ```
 
-4. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
+5. Deploy the service(defined in your current working directory) to AWS as lambda function and invoking event as REST End point via AWS API gateway.
 
   ```bash
  // deploy to default stage (dev) and default region (us-east-1). 
@@ -106,48 +108,77 @@ Library | Version | Notes
  sls deploy --stage production --region us-west-1
   ```
 
-5. Test the AWS lambda function.
+6. Test the AWS lambda function.
 
   ```bash
-  sls invoke -f saveToDoItem
+  sls invoke -f createToDoItem
   sls invoke -f getToDoItem
   ```
 
-6. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
+7. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
 
   ```bash
- POST - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item
+ POST - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos
 
  Request Body :  {
-   "item":"First test",
+   "todoItem":"44444 test",
    "complete":true
 }
   ```
 
 ![Installation Instruction](./docs/5.png)
 
-
-7. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for given `id`.
+8. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for a given `id`.
 
   ```bash
- GET - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item/{id}
+ GET - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/{id}
   ```
 
 ![Installation Instruction](./docs/6.png)
 
-8. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
+9. Invoke `GET` API End Points to retrieve all the items from `to-do-list` table.
 
   ```bash
- sls deploy function -f saveToDoItem
-
- // deploy with stage and region options
- sls deploy function -f saveToDoItem --stage production --region us-west-1
-
- // deploy only configuration changes, ONLY Lambda-level configuration changes e.g. handler, timeout or memorySize
- sls deploy function -f saveToDoItem --update-config
+ GET - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos
   ```
 
-9. To list information about your deployments.
+![Installation Instruction](./docs/7.png)
+
+
+10. Invoke `PUT` API End Points to update an item from `to-do-list` table for a given `id`.
+
+  ```bash
+ PUT - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/eda3f847-3ab5-406a-9090-400771a70351
+
+ Request Body :  {
+   "todoItem":"111111 test",
+   "complete":false
+}
+  ```
+
+![Installation Instruction](./docs/8.png)
+
+11. Invoke `DELETE` API End Points to delete an item from `to-do-list` table for a given `id`.
+
+  ```bash
+ DELETE - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/d81dacff-0930-4b73-99ff-d442a57b0b91
+  ```
+
+![Installation Instruction](./docs/9.png)
+
+12. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
+
+  ```bash
+ sls deploy function -f createToDoItem
+
+ // deploy with stage and region options
+ sls deploy function -f createToDoItem --stage production --region us-west-1
+
+ // deploy only configuration changes, ONLY Lambda-level configuration changes e.g. handler, timeout or memorySize
+ sls deploy function -f createToDoItem --update-config
+  ```
+
+13. To list information about your deployments.
 
   ```bash
  // List existing deploys 
@@ -157,25 +188,25 @@ Library | Version | Notes
  sls deploy list functions
   ```
 
-10. To list information about the deployed service.
+14. To list information about the deployed service.
 
   ```bash
  sls deploy info
   ```
 
-11. To watch the logs of a specific function.
+15. To watch the logs of a specific function.
 
   ```bash
-  sls logs -f saveToDoItem
+  sls logs -f createToDoItem
 
   // Optionally tail the logs with -t
-  sls logs -f saveToDoItem -t
+  sls logs -f createToDoItem -t
 
   // Optionally fetch only the logs that contain the string serverless
-  sls logs -f saveToDoItem --filter serverless
+  sls logs -f createToDoItem --filter serverless
   ``` 
 
-12. To remove the deployed service, defined in your current working directory
+16. To remove the deployed service, defined in your current working directory
 
   ```bash
  sls remove
@@ -184,7 +215,7 @@ Library | Version | Notes
  sls remove --stage dev --region us-east-1
   ```
 
-12. To Rollback a service to a specific deployment using timestamp
+17. To Rollback a service to a specific deployment using timestamp
 
   ```bash
  sls rollback -t timestamp
@@ -198,7 +229,7 @@ Library | Version | Notes
 
 ## Create AWS Lambda Function using Serverless Framework
 
-1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (getToDoItem and saveToDoItem). You can define one or more functions in a service
+1. Create service a new service or project(aws-lambda-with-dynamodb) for AWS Lambda functions (createToDoItem, updateToDoItem, getToDoItem, getAllToDoItems and deleteToDoItem). You can define one or more functions in a service
 
   ```bash
   sls create --template aws-nodejs-typescript --path aws-lambda-with-dynamodb --name getToDoItem
@@ -209,29 +240,62 @@ Library | Version | Notes
     - handler.ts - Code for the application's Lambda function.
     - serverless.ts - A typescript template that defines the application's AWS Lambda service, function, resources and trigger events
 
-1. Define events in `serverless.ts` to trigger the lambda function. Example: for this `getToDoItem` function,  we defined HTTP REST End points with path `to-do-item/{id}` and method `GET`. On deploying this service, it create lambda function and REST API service via AWS API Gateway
+1. Define events in `serverless.ts` to trigger the lambda function. On deploying this service, it create lambda function and REST API service via AWS API Gateway
 
   ```typescript
   functions: {
-    saveToDoItem: {
-      handler: 'handler.saveToDoItem',
+    createToDoItem: {
+      handler: 'src/handler.createToDoItem',
       events: [
         {
           http: {
             method: 'post',
-            path: 'to-do-item',
+            path: 'todos',
             cors: true
           }
         }
       ]
     },
+    updateToDoItem: {
+      handler: 'src/handler.updateToDoItem',
+      events: [
+        {
+          http: {
+            method: 'put',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
     getToDoItem: {
-      handler: 'handler.getToDoItem',
+      handler: 'src/handler.getToDoItem',
       events: [
         {
           http: {
             method: 'get',
-            path: 'to-do-item/{id}',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
+    getAllToDoItems: {
+      handler: 'src/handler.getAllToDoItems',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'todos',
+          }
+        }
+      ]
+    },
+    deleteToDoItem: {
+      handler: 'src/handler.deleteToDoItem',
+      events: [
+        {
+          http: {
+            method: 'delete',
+            path: 'todos/{id}',
           }
         }
       ]
@@ -251,7 +315,7 @@ Library | Version | Notes
 
   serverless-offline: This Serverless plugin emulates AWS Lambda and API Gateway on your local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
 
-1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `aws-lambda-with-dynamodb-dev-getToDoItem` and a REST API via AWS API Gateway `dev-aws-lambda-with-dynamodb` with endpoints `https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/to-do-item`
+1. On running the `sls deploy` command, will automatically compile the Typescript to JavaScript and creates an AWS Lambda function `aws-lambda-with-dynamodb-dev-getToDoItem` and a REST API via AWS API Gateway `dev-aws-lambda-with-dynamodb` with endpoints `https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/todos`
 
 1. Run `serverless offline` command to start the Lambda/API simulation.
 
@@ -263,9 +327,14 @@ Library | Version | Notes
   sls offline start
 
   // Test the AWS lambda function locally via emulated API gateway.
-  GET - http://localhost:3000/dev/to-do-item
+  GET - http://localhost:3000/dev/todos
   ```
 
+## Serverless Environment Variables
+
+Environmental variables can be provided to Lambda configuration file (serverless.ts or serverless.yml) and Lambda function using [serverless-dotenv-plugin](https://www.npmjs.com/package/serverless-dotenv-plugin).
+
+Form More detail refer: [Documentation](https://www.serverless.com/plugins/serverless-dotenv-plugin), [Sample reference](https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/), [Other](https://www.serverless.com/framework/docs/environment-variables/)  
 ## References
 
 * [AWS SDK v2 for DynamoDB](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/dynamodb-example-document-client.html).

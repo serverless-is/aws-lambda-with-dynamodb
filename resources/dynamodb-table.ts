@@ -1,9 +1,9 @@
-const resources: any =  {
+export const db_resources = { 
   Resources: {
     ToDoListTable: {
       Type: 'AWS::DynamoDB::Table',
       Properties: {
-        TableName: 'to-do-list',
+        TableName: '${env:TABLE_NAME}',
         AttributeDefinitions: [
           {
             AttributeName: 'id',
@@ -17,12 +17,10 @@ const resources: any =  {
           }
         ],
         ProvisionedThroughput: {
-          ReadCapacityUnits: 1,
-          WriteCapacityUnits: 1
+          ReadCapacityUnits: '${env:READ_CAPACITY}',
+          WriteCapacityUnits: '${env:WRITE_CAPACITY}'
         }
       }
     }
   }
 }
-
-module.exports = resources

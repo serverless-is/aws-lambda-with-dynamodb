@@ -1,22 +1,22 @@
-import type { AWS } from '@serverless/typescript';
-// Load environment variables form `.env` 
-const dotenvResult = require('dotenv').config();
+import type { Serverless } from 'serverless/aws';
+import { db_resources } from './resources/dynamodb-table';
 
-if (dotenvResult.error) {
-  console.warn('Lambda is configured by env variables. No .env configuration file was detected.');
-}
-
-const serverlessConfiguration: AWS = {
+const serverlessConfiguration: Serverless = {
   service: 'aws-lambda-with-dynamodb',
   frameworkVersion: '2',
+  // Add the serverless-webpack plugin
+  plugins: ['serverless-webpack', 'serverless-offline', 'serverless-dotenv-plugin'],
   custom: {
     webpack: {
       webpackConfig: './webpack.config.js',
       includeModules: true
+    },
+    dotenv: {
+      required: {
+        file: true
+      }
     }
   },
-  // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack', 'serverless-offline'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -33,7 +33,7 @@ const serverlessConfiguration: AWS = {
           'dynamodb:UpdateItem',
           'dynamodb:DeleteItem'
         ],
-        'Resource': `arn:aws:dynamodb:${process.env.AWS_REGION}:${process.env.AWS_ACCOUNT_ID}:table/${process.env.TABLE_NAME}`
+        'Resource': 'arn:aws:dynamodb:${env:AWS_DB_REGION}:${env:AWS_ACCOUNT_ID}:table/${env:TABLE_NAME}'
       },
       {
         "Effect": "Allow",
@@ -51,14 +51,25 @@ const serverlessConfiguration: AWS = {
     
   },
   functions: {
-    saveToDoItem: {
-      handler: 'src/handler.saveToDoItem',
+    createToDoItem: {
+      handler: 'src/handler.createToDoItem',
       events: [
         {
           http: {
             method: 'post',
-            path: 'to-do-item',
+            path: 'todos',
             cors: true
+          }
+        }
+      ]
+    },
+    updateToDoItem: {
+      handler: 'src/handler.updateToDoItem',
+      events: [
+        {
+          http: {
+            method: 'put',
+            path: 'todos/{id}',
           }
         }
       ]
@@ -69,7 +80,18 @@ const serverlessConfiguration: AWS = {
         {
           http: {
             method: 'get',
-            path: 'to-do-item/{id}',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
+    getAllToDoItems: {
+      handler: 'src/handler.getAllToDoItems',
+      events: [
+        {
+          http: {
+            method: 'get',
+            path: 'todos',
           }
         }
       ]
@@ -80,38 +102,13 @@ const serverlessConfiguration: AWS = {
         {
           http: {
             method: 'delete',
-            path: 'to-do-item/{id}',
+            path: 'todos/{id}',
           }
         }
       ]
     }
   },
-  resources: {
-    Resources: {
-      ToDoListTable: {
-        Type: 'AWS::DynamoDB::Table',
-        Properties: {
-          TableName: 'to-do-list',
-          AttributeDefinitions: [
-            {
-              AttributeName: 'id',
-              AttributeType: 'S'
-            }
-          ],
-          KeySchema: [
-            {
-              AttributeName: 'id',
-              KeyType: 'HASH'
-            }
-          ],
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1
-          }
-        }
-      }
-    }
-  }
+  resources: db_resources
 }
 
 module.exports = serverlessConfiguration;
