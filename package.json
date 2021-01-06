@@ -1,6 +1,6 @@
 {
   "name": "aws-lambda-with-dynamodb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "AWS Lambda CRUD operations with Dynamodb and AWS APIGateway usingServerless Framework v2.16.x and TypeScript",
   "main": "src/handler.ts",
   "scripts": {

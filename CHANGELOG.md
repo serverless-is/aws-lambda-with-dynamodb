@@ -1,3 +1,18 @@
+<a name="v0.0.3"></a>
+## 0.0.3 (2021-01-05)
+
+#### Bug Fixes
+
+* NA
+
+#### Features
+
+* Organized files for database operations into a separate file.
+
+#### Breaking Changes
+
+* NA
+
 <a name="v0.0.2"></a>
 ## 0.0.2 (2021-01-05)
 
@@ -13,7 +28,6 @@
 #### Breaking Changes
 
 * NA
-
 
 <a name="v0.0.1"></a>
 ## 0.0.1 (2020-12-30)
