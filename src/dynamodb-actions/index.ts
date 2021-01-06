@@ -4,13 +4,13 @@ import { v4 as uuid } from 'uuid';
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 /** create a to-do item in the db table */
-export function createItemInDB(item: string, complete: boolean) {
+export function createItemInDB(todoItem: string, complete: boolean) {
   const timestamp = new Date().getTime();
   const params = {
     TableName: process.env.TABLE_NAME,
     Item: {
       id: uuid(),
-      item,
+      todoItem,
       complete,
       createdAt: timestamp,
       updatedAt: timestamp
@@ -25,30 +25,31 @@ export function createItemInDB(item: string, complete: boolean) {
 }
 
 /** update a to-do item in the db table */
-/*export function updateItemInDB(item: string, complete: boolean) {
+export function updateItemInDB(id: string, todoItem: string, complete: boolean) {
+  const timestamp = new Date().getTime();
   const params = {
     TableName: process.env.TABLE_NAME,
-    Item: {
-      id: uuid(),
-      item,
-      complete
-    }
+    Key: { id },
+    ExpressionAttributeValues: {
+      ':todoItem': todoItem,
+      ':complete': complete,
+      ':updatedAt': timestamp,
+    },
+    UpdateExpression: 'SET todoItem = :todoItem, complete = :complete, updatedAt = :updatedAt',
   };
-
+  console.log('updated params >>', params);
   return dynamoDB
-    .put(params)
+    .update(params)
     .promise()
     .then(res => res)
     .catch(err => err);
-} */
+} 
 
 /** get a to-do item from the db table */
 export function getItemFromDB(id: string) {
   const params = {
     TableName: process.env.TABLE_NAME,
-    Key: {
-      id
-    }
+    Key: {id}
   };
 
   return dynamoDB

@@ -8,6 +8,7 @@
 #### Features
 
 * Read the environmental variables during build time using [serverless-dotenv-plugin](https://github.com/colynb/serverless-dotenv-plugin#readme) instead of using `dotenv` npm package.
+* Added update, delete and getAllToDoItems operations
 
 #### Breaking Changes
 

@@ -63,6 +63,17 @@ const serverlessConfiguration: Serverless = {
         }
       ]
     },
+    updateToDoItem: {
+      handler: 'src/handler.updateToDoItem',
+      events: [
+        {
+          http: {
+            method: 'put',
+            path: 'todos/{id}',
+          }
+        }
+      ]
+    },
     getToDoItem: {
       handler: 'src/handler.getToDoItem',
       events: [
