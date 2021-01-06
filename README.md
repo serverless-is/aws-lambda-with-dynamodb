@@ -118,25 +118,55 @@ Library | Version | Notes
 7. Invoke `POST` REST API End Points to insert a item into `to-do-list` table using Postman
 
   ```bash
- POST - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/todos
+ POST - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos
 
  Request Body :  {
-   "item":"First test",
+   "todoItem":"44444 test",
    "complete":true
 }
   ```
 
 ![Installation Instruction](./docs/5.png)
 
-8. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for given `id`.
+8. Invoke `GET` API End Points to retrieve an item from `to-do-list` table for a given `id`.
 
   ```bash
- GET - https://85ja8seqp6.execute-api.us-east-1.amazonaws.com/dev/todos/{id}
+ GET - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/{id}
   ```
 
 ![Installation Instruction](./docs/6.png)
 
-9. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
+9. Invoke `GET` API End Points to retrieve all the items from `to-do-list` table.
+
+  ```bash
+ GET - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos
+  ```
+
+![Installation Instruction](./docs/7.png)
+
+
+10. Invoke `PUT` API End Points to update an item from `to-do-list` table for a given `id`.
+
+  ```bash
+ PUT - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/eda3f847-3ab5-406a-9090-400771a70351
+
+ Request Body :  {
+   "todoItem":"111111 test",
+   "complete":false
+}
+  ```
+
+![Installation Instruction](./docs/8.png)
+
+11. Invoke `DELETE` API End Points to delete an item from `to-do-list` table for a given `id`.
+
+  ```bash
+ DELETE - https://jkdqogbij7.execute-api.us-east-1.amazonaws.com/dev/todos/d81dacff-0930-4b73-99ff-d442a57b0b91
+  ```
+
+![Installation Instruction](./docs/9.png)
+
+12. If there are changes only to the functions(handler) and no changes to infrastructure(serverless.yml), then deploy only the function(no AWS cloudformation changes). This is a much faster way of deploying changes in code.
 
   ```bash
  sls deploy function -f createToDoItem
@@ -148,7 +178,7 @@ Library | Version | Notes
  sls deploy function -f createToDoItem --update-config
   ```
 
-10. To list information about your deployments.
+13. To list information about your deployments.
 
   ```bash
  // List existing deploys 
@@ -158,13 +188,13 @@ Library | Version | Notes
  sls deploy list functions
   ```
 
-11. To list information about the deployed service.
+14. To list information about the deployed service.
 
   ```bash
  sls deploy info
   ```
 
-12. To watch the logs of a specific function.
+15. To watch the logs of a specific function.
 
   ```bash
   sls logs -f createToDoItem
@@ -176,7 +206,7 @@ Library | Version | Notes
   sls logs -f createToDoItem --filter serverless
   ``` 
 
-13. To remove the deployed service, defined in your current working directory
+16. To remove the deployed service, defined in your current working directory
 
   ```bash
  sls remove
@@ -185,7 +215,7 @@ Library | Version | Notes
  sls remove --stage dev --region us-east-1
   ```
 
-14. To Rollback a service to a specific deployment using timestamp
+17. To Rollback a service to a specific deployment using timestamp
 
   ```bash
  sls rollback -t timestamp
