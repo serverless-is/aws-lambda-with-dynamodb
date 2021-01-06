@@ -17,10 +17,9 @@ npm install
 
 ```bash
 sls deploy
-sls invoke -f hello
 ```
 
-- Follow the Readme and invoke the AWS Lambda function via REST End Point
+- Follow the instructions in Readme, invoke and test the AWS Lambda function via REST End Point
 
 
 ## What to check
