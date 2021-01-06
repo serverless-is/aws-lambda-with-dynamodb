@@ -12,8 +12,9 @@ This project demonstrates how to make CRUD operations using AWS Lambda, AWS Dyna
 2. [Dependencies and Libraries](#dependencies-and-libraries)
 3. [Quick Start](#quick-start)
 4. [Create AWS Lambda Function using Serverless Framework](#create-aws-lambda-function-using-serverless-framework)
-5. [References](#references)
-6. [Status and Issues](#status-and-issues)
+5. [Serverless Environment Variables](#serverless-environment-variables)
+6. [References](#references)
+7. [Status and Issues](#status-and-issues)
 
 ## Prerequisites and Installation
 
