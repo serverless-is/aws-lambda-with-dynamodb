@@ -1,6 +1,6 @@
 import { APIGatewayEvent, APIGatewayProxyHandler, Context } from 'aws-lambda';
 import 'source-map-support/register';
-import { createItemInDB, getItemFromDB, getAllItemsFromDB, deleteItemFromDB, updateItemInDB } from "./dynamodb-actions";
+import { createItemInDB, getItemFromDB, getAllItemsFromDB, deleteItemFromDB, updateItemInDB } from './dynamodb-actions';
 
 /** Save an item in the to-do list */
 export const createToDoItem: APIGatewayProxyHandler = async (
